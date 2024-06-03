@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  src: local('Inter'),
+    url('../../public/assets/fonts/Inter/Inter.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'JetBrains';
+  font-display: swap;
+  src: local('Inter'),
+    url('../../public/assets/fonts/JetBrains/JetBrains.ttf') format('truetype');
+}
+
+:root {
+  font-family: 'Inter';
+}
+
+code {
+  font-family: 'JetBrains' !important;
+  user-select: none;
+}
