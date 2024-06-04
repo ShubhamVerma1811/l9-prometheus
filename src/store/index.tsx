@@ -3,9 +3,12 @@ import type { Group } from "../types/rules.types";
 
 type State = {
 	groups?: Array<Group>;
+	filterGroups?: Array<Group>;
 	isModalOpen: boolean;
 	activeRule?: Array<Group>;
 	activeGroupName?: string;
+	activeGroupSlug?: string;
+	parentGroupName?: string;
 };
 
 const initialState: State = {
@@ -14,10 +17,13 @@ const initialState: State = {
 	isModalOpen: false,
 };
 
-export const StoreContext = React.createContext<State>(initialState);
+export const StoreContext = React.createContext<{
+	state: State;
+	dispatch?: any;
+}>({ state: initialState });
 
-export const StoreProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(storeReducer, null);
+export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
+	const [state, dispatch] = useReducer(storeReducer, initialState);
 
 	return (
 		<StoreContext.Provider value={{ state, dispatch }}>
@@ -26,24 +32,35 @@ export const StoreProvider = ({ children }) => {
 	);
 };
 
-export const storeReducer = (state: State, action) => {
+export const storeReducer = (
+	state: State,
+	action: { type: string; payload?: any },
+) => {
 	switch (action.type) {
-		case "INIT":
-			return { ...state, ...action.payload };
-
 		case "TOGGLE_MODAL":
 			return { ...state, isModalOpen: !state?.isModalOpen };
 
-		case "ACTIVE_RULES":
-			return { ...state, activeRule: action.payload.rule };
+		case "FULL_GROUPS":
+			return {
+				...state,
+				groups: action.payload.groups,
+				filterGroups: action.payload.filterGroups,
+			};
 
-		case "ACTIVE_GROUP_NAME":
-			return { ...state, activeGroupName: action.payload.activeGroupName };
-
-		case "FILTER_GRPOUPS":
+		case "FILTER_GROUPS":
 			return { ...state, filterGroups: action.payload.filterGroups };
 
+		case "SHOW_GROUP_RULES": {
+			return {
+				...state,
+				isModalOpen: !state?.isModalOpen,
+				activeGroupName: action.payload.serviceName,
+				activeGroupSlug: action.payload.serviceSlug,
+				parentGroupName: action.payload.parentGroupName,
+			};
+		}
+
 		default:
-			return { ...state, isModalOpen: true };
+			return { ...state };
 	}
 };

@@ -1,4 +1,7 @@
-export const Modal = ({ isOpen, children }) => {
+export const Modal = ({
+	isOpen,
+	children,
+}: { children: React.ReactNode; isOpen: boolean }) => {
 	if (!isOpen) {
 		return null;
 	}
@@ -12,7 +15,7 @@ export const Modal = ({ isOpen, children }) => {
 	);
 };
 
-const Header = ({ children }) => {
+const Header = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<div className="sticky border-b-2 bg-white top-0 w-full h-full z-10">
 			{children}
@@ -20,7 +23,7 @@ const Header = ({ children }) => {
 	);
 };
 
-const Body = ({ children }) => {
+const Body = ({ children }: { children: React.ReactNode }) => {
 	return <div className="p-4">{children}</div>;
 };
 

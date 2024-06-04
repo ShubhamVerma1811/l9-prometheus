@@ -27,4 +27,5 @@ export interface Rules {
 	for?: string;
 	comments?: string;
 	summary?: string;
+	alert?: string;
 }
